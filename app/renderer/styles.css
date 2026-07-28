@@ -1,0 +1,79 @@
+/*
+ * Glaze framework styles (@import "@glaze/core/..." and @import "tailwindcss")
+ * are automatically injected before this file during build and dev.
+ * Add your custom styles and @source directives below.
+ */
+
+/* Tell Tailwind to scan all local renderer window files for class names */
+@source "./**/*.{ts,tsx}";
+@source not "./preload.ts";
+@source not "./dev/**/*";
+
+/*
+ * Cehua theme — one restrained indigo accent, everything else neutral.
+ * Only the accent + selection seeds are overridden so the neutral macOS
+ * surfaces and full light/dark support keep working automatically.
+ */
+:root {
+  --theme-accent: #4f46e5; /* indigo-600 */
+  /* Force Cehua's indigo as the brand accent regardless of the user's macOS
+     system accent — the indigo identity is core to the brand, not decorative. */
+  --accent: #4f46e5;
+  --selection: #4f46e5;
+}
+.dark {
+  --theme-accent: #6d6bf5; /* slightly brighter indigo for dark surfaces */
+  --accent: #6d6bf5;
+  --selection: #6d6bf5;
+}
+
+/* Signature vertical flow diagram — subtle connector line between step cards.
+   Uses the fg-20 seed (var-safe) so it adapts to light/dark automatically. */
+.flow-connector {
+  background: linear-gradient(to bottom, transparent, var(--fg-20), transparent);
+}
+
+/* Smooth, deliberate tab transition — a quiet fade + rise, nothing flashy. */
+@keyframes cehua-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+[role="tabpanel"][data-state="active"] {
+  animation: cehua-fade-in 180ms ease-out;
+}
+
+/* Shimmer effect for the generating view heading. */
+@keyframes cehua-shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    var(--fg-80) 0%,
+    var(--fg-80) 40%,
+    var(--accent) 50%,
+    var(--fg-80) 60%,
+    var(--fg-80) 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: cehua-shimmer 2.5s ease-in-out infinite;
+}
+
+/* Brand mark accent glow for depth. */
+.brand-glow {
+  box-shadow: 0 0 0 1px var(--accent-20), 0 2px 8px -2px var(--accent-40);
+}
